@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/**
+ * Copyright (c) 2010, The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+-->
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.android.samplesync"
+    android:versionCode="1"
+    android:versionName="1.0">
+    <uses-permission
+        android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission
+        android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission
+        android:name="android.permission.MANAGE_ACCOUNTS" />
+    <uses-permission
+        android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
+    <uses-permission
+        android:name="android.permission.INTERNET" />
+    <uses-permission
+        android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission
+        android:name="android.permission.WRITE_SECURE_SETTINGS" />
+    <uses-permission
+        android:name="android.permission.READ_CONTACTS" />
+    <uses-permission
+        android:name="android.permission.WRITE_CONTACTS" />
+    <uses-permission
+        android:name="android.permission.READ_SYNC_STATS" />
+    <uses-permission
+        android:name="android.permission.READ_SYNC_SETTINGS" />
+    <uses-permission
+        android:name="android.permission.WRITE_SYNC_SETTINGS" />
+    <uses-permission
+        android:name="android.permission.READ_SOCIAL_STREAM" />
+    <uses-permission
+        android:name="android.permission.WRITE_SOCIAL_STREAM" />
+
+    <uses-sdk android:minSdkVersion="8" android:targetSdkVersion="15" />
+
+    <application
+        android:icon="@drawable/icon"
+        android:label="@string/label">
+        <!-- The authenticator service -->
+        <service
+            android:name=".authenticator.AuthenticationService"
+            android:exported="true">
+            <intent-filter>
+                <action
+                    android:name="android.accounts.AccountAuthenticator" />
+            </intent-filter>
+            <meta-data
+                android:name="android.accounts.AccountAuthenticator"
+                android:resource="@xml/authenticator" />
+        </service>
+        <service
+            android:name=".syncadapter.SyncService"
+            android:exported="true">
+            <intent-filter>
+                <action
+                    android:name="android.content.SyncAdapter" />
+            </intent-filter>
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/syncadapter" />
+            <meta-data
+                android:name="android.provider.CONTACTS_STRUCTURE"
+                android:resource="@xml/contacts" />
+        </service>
+        <!-- The view notification service -->
+        <service
+            android:name=".notifier.NotifierService"
+            android:exported="true">
+            <!--
+                No intent-filter here! This activity is only ever launched by
+                someone who explicitly knows the class name
+            -->
+        </service>
+        <activity
+            android:name=".authenticator.AuthenticatorActivity"
+            android:label="@string/ui_activity_title"
+            android:theme="@android:style/Theme.Dialog"
+            android:excludeFromRecents="true"
+            android:configChanges="orientation"
+            >
+            <!--
+                No intent-filter here! This activity is only ever launched by
+                someone who explicitly knows the class name
+            -->
+        </activity>
+
+        <activity
+            android:name=".activites.InviteContactActivity"
+            android:theme="@android:style/Theme.Dialog">
+            <!--
+                We use the INVITE intent to add a raw contact to an existing contact.
+                It always comes with a lookup URI.
+            -->
+            <intent-filter>
+                <action
+                    android:name="com.android.contacts.action.INVITE_CONTACT" />
+                <data
+                    android:mimeType="vnd.android.cursor.item/contact" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".activities.ViewGroupActivity"
+            android:theme="@android:style/Theme.Dialog">
+            <!--
+                We use the VIEW intent to view a group in our app.
+                It always comes with a lookup URI.
+            -->
+            <intent-filter>
+                <action
+                    android:name="android.intent.action.VIEW" />
+                <data
+                    android:mimeType="vnd.android.cursor.item/group" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".activities.ViewStreamItemActivity"
+            android:theme="@android:style/Theme.Dialog">
+            <!--
+                We use the VIEW intent to view a stream item in our app.
+                It always comes with a lookup URI.
+            -->
+            <intent-filter>
+                <action
+                    android:name="android.intent.action.VIEW" />
+                <data
+                    android:mimeType="vnd.android.cursor.item/stream_item" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".activities.ViewStreamItemPhotoActivity"
+            android:theme="@android:style/Theme.Dialog">
+            <!--
+                We use the VIEW intent to view a stream item photo in our app.
+                It always comes with a lookup URI.
+            -->
+            <intent-filter>
+                <action
+                    android:name="android.intent.action.VIEW" />
+                <data
+                    android:mimeType="vnd.android.cursor.item/stream_item_photo" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>
