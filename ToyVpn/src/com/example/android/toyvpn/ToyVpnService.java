@@ -99,7 +99,7 @@ public class ToyVpnService extends VpnService implements Handler.Callback, Runna
 
             // We try to create the tunnel for several times. The better way
             // is to work with ConnectivityManager, such as trying only when
-            // the network is avaiable. Here we just use a counter to keep
+            // the network is available. Here we just use a counter to keep
             // things simple.
             for (int attempt = 0; attempt < 10; ++attempt) {
                 mHandler.sendEmptyMessage(R.string.connecting);
